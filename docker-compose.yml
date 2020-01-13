@@ -10,13 +10,18 @@ services:
       - "${HOST_MACHINE_UNSECURE_HOST_PORT}:80"
       - "${HOST_MACHINE_SECURE_HOST_PORT}:443"
     links:
-      - mysql
+      - mysql-service
     volumes:
-      - ${DOCUMENT_ROOT-./www}:/var/www/html
+      - ${DOCUMENT_ROOT}:/var/www/html
       - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
       - ${VHOSTS_DIR-./config/vhosts}:/etc/apache2/sites-enabled
       - ${LOG_DIR-./logs/apache2}:/var/log/apache2
-  mysql:
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_HOST: ${MYSQL_HOST}
+  mysql-service:
     build:
       context: "./bin/${DATABASE}"
     container_name: "5.7-mysql"
@@ -27,7 +32,7 @@ services:
       - ${MYSQL_DATA_DIR-./data/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
     environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
