@@ -30,6 +30,9 @@ function Composer() {
 function Init() {
   git clone --branch develop git@github.com:HomeCEU/certificate-manager.git ${APP_DIR}
   Composer install
+  if [ ! -f .env ]; then
+    cp sample.env .env
+  fi
 }
 
 function route() {
