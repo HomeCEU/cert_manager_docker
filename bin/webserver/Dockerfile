@@ -13,10 +13,8 @@ RUN apt-get -y update --fix-missing && \
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug
 
-# Install PDO Mysql, json, and mbstring
-RUN docker-php-ext-install pdo_mysql && \
-    docker-php-ext-install json && \
-    docker-php-ext-install mbstring
+# Install PDO Mysql
+RUN docker-php-ext-install pdo_mysql
 
 RUN a2enmod rewrite headers
 
